@@ -1,34 +1,5 @@
 import sys
 
-class AFN:
-    def __init__(self,nome,alfabeto,estados,estado_inicial,estados_finais, transicoes):
-        self.nome = nome
-        self.alfabeto = alfabeto
-        self.estados = estados
-        self.estado_inicial = estado_inicial
-        self.estados_finais = estados_finais
-        self.transicoes = transicoes
-
-    def processar_entrada(self, entrada):
-        return self._processar_entrada_recursivo(self.estado_inicial, entrada)
-
-    def _processar_entrada_recursivo(self, estado_atual, entrada):
-        if not entrada:  # Se a entrada acabou
-            return estado_atual in self.estados_finais
-        
-        simbolo = entrada[0]
-        resto_entrada = entrada[1:]
-        
-        proximos_estados = self.transicoes.get((estado_atual, simbolo), [])
-        
-        for proximo_estado in proximos_estados:
-            if self._processar_entrada_recursivo(proximo_estado, resto_entrada):
-                return True  # Se qualquer um dos caminhos levar a um estado final, a entrada é aceita
-        
-        return False  # Se nenhum dos caminhos levar a um estado final, a entrada é rejeitada
-
-
-
 def ler_set_de_string(string_set):
     # Remove as chaves e espaços desnecessários
     string_set = string_set.strip('{} ')
@@ -66,55 +37,47 @@ def ler_ate_C(string, C):
         antes = string
         depois = ""  # Se não encontrar o caractere, a parte "depois" fica vazia
     return antes, depois
-# Exemplo de uso
-    
-entrada = remover_espacos(input())
-nome,entrada = ler_ate_C(entrada,'=')
 
-alfabeto, entrada = ler_ate_C(entrada,'}')
-alfabeto += '}'
-lixo , alfabeto = ler_ate_C(alfabeto,'(')
-lixo, entrada = ler_ate_C(entrada,',') 
-alfabeto = ler_set_de_string(alfabeto)
+def leitura():
+    entrada = remover_espacos(input())
+    nome,entrada = ler_ate_C(entrada,'=')
 
-
-estados, entrada = ler_ate_C(entrada,'}')
-estados += '}'
-lixo, entrada = ler_ate_C(entrada,',')
-estados = ler_set_de_string(estados)
+    alfabeto, entrada = ler_ate_C(entrada,'}')
+    alfabeto += '}'
+    lixo , alfabeto = ler_ate_C(alfabeto,'(')
+    lixo, entrada = ler_ate_C(entrada,',') 
+    alfabeto = ler_set_de_string(alfabeto)
 
 
-estado_inicial, entrada = ler_ate_C(entrada,',')
+    estados, entrada = ler_ate_C(entrada,'}')
+    estados += '}'
+    lixo, entrada = ler_ate_C(entrada,',')
+    estados = ler_set_de_string(estados)
 
-entrada=entrada[:-1]
-estados_finais = ler_set_de_string(entrada)
 
-# if  (input() != 'Prog'):
-# 	sys.exit(1)
-     
-transicoes = {}
+    estado_inicial, entrada = ler_ate_C(entrada,',')
 
-while(True):
-    entrada = input()
-    if entrada == "":
-         break
+    entrada=entrada[:-1]
+    estados_finais = ler_set_de_string(entrada)
 
-    chave, atingidos = ler_ate_C(entrada,'=')
-	
-    chave = ler_tupla_de_string(chave)
+    if  (input() != 'Prog'):
+        sys.exit(1)
+        
+    transicoes = {}
 
-    atingidos = ler_lista_de_string(atingidos)
+    while(True):
+        entrada = input()
+        if entrada == "":
+            break
 
-    transicoes[chave] = atingidos
+        chave, atingidos = ler_ate_C(entrada,'=')
+        
+        chave = ler_tupla_de_string(chave)
 
-print(transicoes)
-    
+        atingidos = ler_lista_de_string(atingidos)
 
-afn = AFN(estados, alfabeto, transicoes, estado_inicial, estados_finais,transicoes)
+        transicoes[chave] = atingidos
 
-# Testando o autômato com uma entrada
-palavra = "ab"
-if afn.processar_entrada(palavra):
-    print(f"A entrada '{palavra}' foi aceita pelo AFN.")
-else:
-    print(f"A entrada '{palavra}' foi rejeitada pelo AFN.")
+    print(transicoes)
+
+    return estados, alfabeto, transicoes, estado_inicial, estados_finais
