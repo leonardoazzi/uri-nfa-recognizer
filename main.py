@@ -1,56 +1,40 @@
-class NFA:
-    def __init__(self, states, alphabet, transitions, initial_state, accept_states):
-        self.states = states
-        self.alphabet = alphabet
-        self.transitions = transitions  # {(state, symbol): {next_states}}
-        self.initial_state = initial_state
-        self.accept_states = accept_states
+from input_program import leitura
 
-    def accepts(self, input_string):
+class AFN:
+    def __init__(self, estados, alfabeto, transicoes, estado_inicial, estados_aceita):
+        self.estados = estados
+        self.alfabeto = alfabeto
+        self.transicoes = transicoes
+        self.estado_inicial = estado_inicial
+        self.estados_aceita = estados_aceita
+
+    def aceita(self, palavra_entrada):
         """
-        Check if the NFA accepts the input string.
+        Verifica se o autômato finito reconhece a palavra de entrada.
         """
-        # Start with a set containing the initial state
-        current_states = {self.initial_state}
+        # Inicializa os estados atuais com o estado inicial
+        estados_atuais = {self.estado_inicial}
         
-        for symbol in input_string:
-            next_states = set()
-            for state in current_states:
-                # Get the next states for (state, symbol), if any
-                if (state, symbol) in self.transitions:
-                    next_states |= self.transitions[(state, symbol)]
-            current_states = next_states
+        for simbolo in palavra_entrada:
+            prox_estados = set()
+            for estado in estados_atuais:
+                # Busca os próximos estados se houver
+                if (estado, simbolo) in self.transicoes:
+                    prox_estados |= set(self.transicoes[(estado, simbolo)]) # União dos conjuntos
+            estados_atuais = prox_estados
         
-        # Check if any of the current states is an accept state
-        return any(state in self.accept_states for state in current_states)
+        # Verifica se algum dos estados atuais é um estado de aceitação
+        return any(estado in self.estados_aceita for estado in estados_atuais)
 
-# Example usage
-states = {'q0', 'q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10', 'q11', 'q12', 'q13', 'q14', 'qf'}
-alphabet = {':','/','S','h','u','p','c','q','f','#','@','?'}
-transitions = {
-    ('q0','S'):{'q1'},
-    ('q1',':'):{'q2','q9'},
-    ('q2','/'):{'q3'},
-    ('q3','/'):{'q4','q6'},
-    ('q4','u'):{'q5'},
-    ('q5','@'):{'q6'},
-    ('q6','h'):{'q7', 'q9'},
-    ('q7',':'):{'q8'},
-    ('q8','p'):{'q9'},
-    ('q9','c'):{'q10','qf'},
-    ('q10','?'):{'q11'},
-    ('q10',"#"):{"q14"},
-    ('q11','q'):{'q12', 'qf'},
-    ('q12',"#"):{"q13"},
-    ('q13','f'):{"qf"},
-    ('q14','f'):{"qf"},
-}
-initial_state = 'q0'
-accept_states = {'qf'}
+def main():
+    estados, alfabeto, transicoes, estado_inicial, estados_finais = leitura()
 
-nfa = NFA(states, alphabet, transitions, initial_state, accept_states)
+    nfa = AFN(estados, alfabeto, transicoes, estado_inicial, estados_finais)
 
-# Test the NFA with some input strings
-print(nfa.accepts("S:c"))  # True
-print(nfa.accepts("S://u@h:pc?q#f"))  # True
-print(nfa.accepts("S://u@h:p"))  # False
+    # Teste
+    print(nfa.aceita("S:c"))  # True
+    print(nfa.aceita("S://u@h:pc?q#f"))  # True
+    print(nfa.aceita("S://u@h:p"))  # False
+
+if __name__ == "__main__":
+    main()
