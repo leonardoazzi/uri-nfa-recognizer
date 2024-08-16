@@ -39,45 +39,48 @@ def ler_ate_C(string, C):
     return antes, depois
 
 def leitura():
-    entrada = remover_espacos(input())
-    nome,entrada = ler_ate_C(entrada,'=')
+    nomeEntrada = input('Entre o nome do arquivo de entrada: ')
 
-    alfabeto, entrada = ler_ate_C(entrada,'}')
-    alfabeto += '}'
-    lixo , alfabeto = ler_ate_C(alfabeto,'(')
-    lixo, entrada = ler_ate_C(entrada,',') 
-    alfabeto = ler_set_de_string(alfabeto)
+    with open(nomeEntrada,'r') as arquivo:
+        entrada = remover_espacos(arquivo.readline().strip())
+        nome,entrada = ler_ate_C(entrada,'=')
 
-
-    estados, entrada = ler_ate_C(entrada,'}')
-    estados += '}'
-    lixo, entrada = ler_ate_C(entrada,',')
-    estados = ler_set_de_string(estados)
+        alfabeto, entrada = ler_ate_C(entrada,'}')
+        alfabeto += '}'
+        lixo , alfabeto = ler_ate_C(alfabeto,'(')
+        lixo, entrada = ler_ate_C(entrada,',') 
+        alfabeto = ler_set_de_string(alfabeto)
 
 
-    estado_inicial, entrada = ler_ate_C(entrada,',')
+        estados, entrada = ler_ate_C(entrada,'}')
+        estados += '}'
+        lixo, entrada = ler_ate_C(entrada,',')
+        estados = ler_set_de_string(estados)
 
-    entrada=entrada[:-1]
-    estados_finais = ler_set_de_string(entrada)
 
-    if  (input() != 'Prog'):
-        sys.exit(1)
-        
-    transicoes = {}
+        estado_inicial, entrada = ler_ate_C(entrada,',')
 
-    while(True):
-        entrada = input()
-        if entrada == "":
-            break
+        entrada=entrada[:-1]
+        estados_finais = ler_set_de_string(entrada)
 
-        chave, atingidos = ler_ate_C(entrada,'=')
-        
-        chave = ler_tupla_de_string(chave)
+        if  (arquivo.readline().strip() != 'Prog'):
+            sys.exit(1)
+            
+        transicoes = {}
 
-        atingidos = ler_lista_de_string(atingidos)
+        while(True):
+            entrada = arquivo.readline().strip()
+            if not entrada:
+                break
 
-        transicoes[chave] = atingidos
+            chave, atingidos = ler_ate_C(entrada,'=')
+            
+            chave = ler_tupla_de_string(chave)
 
-    print(transicoes)
+            atingidos = ler_lista_de_string(atingidos)
 
-    return estados, alfabeto, transicoes, estado_inicial, estados_finais
+            transicoes[chave] = atingidos
+
+        print(transicoes)
+
+        return estados, alfabeto, transicoes, estado_inicial, estados_finais
