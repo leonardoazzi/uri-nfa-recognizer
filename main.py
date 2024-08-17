@@ -1,5 +1,4 @@
-from input_program import leitura
-from input_program import leituraCSV
+from input_program import leitura, leituraCSV, arg_input
 
 class AFN:
     def __init__(self, estados, alfabeto, transicoes, estado_inicial, estados_aceita):
@@ -28,15 +27,18 @@ class AFN:
         return any(estado in self.estados_aceita for estado in estados_atuais)
 
 def main():
-    estados, alfabeto, transicoes, estado_inicial, estados_finais = leitura()
+    programa_path, palavras_csv_path = arg_input()
+    
+    estados, alfabeto, transicoes, estado_inicial, estados_finais = leitura(programa_path)
 
     nfa = AFN(estados, alfabeto, transicoes, estado_inicial, estados_finais)
 
-    palavras = leituraCSV()
+    print(programa_path, palavras_csv_path)
+
+    palavras = leituraCSV(palavras_csv_path)
 
     for palavra in palavras:
         print(palavra, ' ', nfa.aceita(palavra))
-
 
 if __name__ == "__main__":
     main()
