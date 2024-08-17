@@ -1,4 +1,5 @@
 from input_program import leitura
+from input_program import leituraCSV
 
 class AFN:
     def __init__(self, estados, alfabeto, transicoes, estado_inicial, estados_aceita):
@@ -31,10 +32,11 @@ def main():
 
     nfa = AFN(estados, alfabeto, transicoes, estado_inicial, estados_finais)
 
-    # Teste
-    print(nfa.aceita("S:c"))  # True
-    print(nfa.aceita("S://u@h:pc?q#f"))  # True
-    print(nfa.aceita("S://u@h:p"))  # False
+    palavras = leituraCSV()
+
+    for palavra in palavras:
+        print(palavra, ' ', nfa.aceita(palavra))
+
 
 if __name__ == "__main__":
     main()
