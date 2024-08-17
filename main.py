@@ -1,5 +1,4 @@
-from input_program import leitura
-from input_program import leituraCSV
+from input_program import leitura, leituraCSV, arg_input
 
 class AFN:
     def __init__(self, estados, alfabeto, transicoes, estado_inicial, estados_aceita):
@@ -28,15 +27,34 @@ class AFN:
         return any(estado in self.estados_aceita for estado in estados_atuais)
 
 def main():
-    estados, alfabeto, transicoes, estado_inicial, estados_finais = leitura()
+    print("\n////////////////////////////////////////////////////")
+    print("AFN->AFD para reconhecimento de sintaxe URI")
+    print("Leonardo Azzi Martins e Dennis Pereira Krigger")
+    print("////////////////////////////////////////////////////")
+
+    programa_path, palavras_csv_path, opt_lista_rejeita, opt_lista_palavras = arg_input()
+    
+    estados, alfabeto, transicoes, estado_inicial, estados_finais = leitura(programa_path)
 
     nfa = AFN(estados, alfabeto, transicoes, estado_inicial, estados_finais)
 
-    palavras = leituraCSV()
+    palavras = leituraCSV(palavras_csv_path)
 
+    if (opt_lista_palavras):
+        print("\nPalavras de entrada:")
+        for palavra in palavras:
+            print('\t', palavra)
+
+    if (opt_lista_rejeita):
+        print("\nPalavras do conjunto REJEITA:")
+        for palavra in palavras:
+            if (nfa.aceita(palavra) == False):
+                print('\t', palavra)
+
+    print("\nPalavras do conjunto ACEITA:")
     for palavra in palavras:
-        print(palavra, ' ', nfa.aceita(palavra))
-
+        if (nfa.aceita(palavra)):
+            print('\t', palavra)
 
 if __name__ == "__main__":
     main()
