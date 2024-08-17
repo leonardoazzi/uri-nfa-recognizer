@@ -1,3 +1,12 @@
+# UNIVERSIDADE FEDERAL DO RIO GRANDE DO SUL
+# INSTITUTO DE INFORMÁTICA
+# INF05005 - Linguagens Formais e Autômatos - Prof. Lucio Mauro Duarte
+
+# Trabalho teórico-prático, 2024/1
+
+# Dennis Pereira Krigger
+# Leonardo Azzi Martins
+
 import sys, getopt, re
 
 def arg_input() -> tuple:
@@ -101,7 +110,6 @@ def leitura(prog_path):
         _, entrada = ler_ate_C(entrada,',') 
         alfabeto = ler_set_de_string(alfabeto)
 
-
         estados, entrada = ler_ate_C(entrada,'}')
         estados += '}'
         _, entrada = ler_ate_C(entrada,',')
@@ -130,7 +138,7 @@ def leitura(prog_path):
 
             transicoes[chave] = atingidos
 
-        return estados, alfabeto, transicoes, estado_inicial, estados_finais
+        return alfabeto, estados, transicoes, estado_inicial, estados_finais
 
 def leituraCSV(csv_path):
     with open(csv_path, 'r') as arquivo:

@@ -1,17 +1,34 @@
+# UNIVERSIDADE FEDERAL DO RIO GRANDE DO SUL
+# INSTITUTO DE INFORMÁTICA
+# INF05005 - Linguagens Formais e Autômatos - Prof. Lucio Mauro Duarte
+
+# Trabalho teórico-prático, 2024/1
+
+# Dennis Pereira Krigger
+# Leonardo Azzi Martins
+
 import unittest
-from main import AFN, leitura
+from main import AF, leitura
+from conversao import afn_para_afd
 
-class TesteAFN(unittest.TestCase):
+class TesteAFD(unittest.TestCase):
     def setUp(self):
-        estados, alfabeto, transicoes, estado_inicial, estados_finais = leitura()
-        self.nfa = AFN(estados, alfabeto, transicoes, estado_inicial, estados_finais)
+        alfabeto, estados, transicoes, estado_inicial, estados_finais = leitura(prog_path="entrada")
 
+        self.afn = AF(alfabeto=alfabeto,
+                    estados=estados, 
+                    transicoes=transicoes, 
+                    estado_inicial=estado_inicial, 
+                    estados_aceita=estados_finais
+                    )
+        self.afd = afn_para_afd(self.afn)
+        
     def teste_aceita(self):
-        self.assertTrue(self.nfa.aceita("S:c"))
-        self.assertTrue(self.nfa.aceita("S://u@h:pc?q#f"))
+        self.assertTrue(self.afd.aceita("S:c"))
+        self.assertTrue(self.afd.aceita("S://u@h:pc?q#f"))
 
     def teste_rejeita(self):
-        self.assertFalse(self.nfa.aceita("S://u@h:p"))
+        self.assertFalse(self.afd.aceita("S://u@h:p"))
 
 if __name__ == '__main__':
     unittest.main()
