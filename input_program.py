@@ -13,17 +13,18 @@ def arg_input() -> tuple:
     # Entrada de parâmetros via terminal
     argument_list = sys.argv[1:]
 
-    options = "p:c:"
+    options = "p:c:rl"
 
-    long_options = ["programa=", "csv_palavras="]
+    long_options = ["programa=", "csv_palavras=", "rejeita", "lista"]
 
     prog_path = ""
     csv_path = ""
+    arg_rejeita = False
+    arg_lista = False
 
     ## Parsing dos argumentos e valores atribuídos
     try:
         arguments, values = getopt.getopt(argument_list, options, long_options)
-        print(arguments, values)
 
     except getopt.error as err:
         print(str(err))
@@ -34,17 +35,22 @@ def arg_input() -> tuple:
 
         if current_argument in ("-p", "--programa"):
             prog_path = current_value
-            print("Arquivo de programa:", prog_path)
+            print("\nArquivo de programa:", prog_path)
 
         elif current_argument in ("-c", "--csv_palavras"):
             if (re.search(r'\.csv$', current_value)):
                 print("Arquivo .csv de Palavras:", current_value)
             else:
                 raise Exception("O arquivo de palavras deve ser um arquivo .csv")
-            
             csv_path = current_value
 
-    return prog_path, csv_path
+        elif current_argument in ("-r", "--rejeita"):
+            arg_rejeita = True
+
+        elif current_argument in ("-l", "--lista"):
+            arg_lista = True
+
+    return prog_path, csv_path, arg_rejeita, arg_lista
 
 def ler_set_de_string(string_set):
     # Remove as chaves e espaços desnecessários
