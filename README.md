@@ -112,3 +112,16 @@ onde:
 ### Lista de palavras
 
 O arquivo com lista de palavras deve conter as palavras separadas por vírgula, ou seja, em formato .csv.
+
+---
+UNIVERSIDADE FEDERAL DO RIO GRANDE DO SUL
+
+INSTITUTO DE INFORMÁTICA
+
+INF05005 - Linguagens Formais e Autômatos - Prof. Lucio Mauro Duarte
+
+Trabalho teórico-prático, 2024/1
+
+Dennis Pereira Krigger
+
+Leonardo Azzi Martins
