@@ -81,6 +81,10 @@ def leitura():
 
             transicoes[chave] = atingidos
 
-        print(transicoes)
-
         return estados, alfabeto, transicoes, estado_inicial, estados_finais
+
+def leituraCSV():
+    nome_arquivo = input('Entre o nome do arquivo que contem as palavras: ')
+    with open(nome_arquivo, 'r') as arquivo:
+        conteudo = arquivo.read().strip()  # Lê o arquivo inteiro e remove espaços em branco extras
+        return tuple(conteudo.split(','))  # Divide as strings por vírgula e transforma em tupla
