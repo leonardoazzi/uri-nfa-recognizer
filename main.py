@@ -12,8 +12,6 @@ def main():
     
     alfabeto, estados, transicoes, estado_inicial, estados_finais = leitura(programa_path)
 
-    print(alfabeto, estados, transicoes, estado_inicial, estados_finais)
-
     afn = AF(alfabeto=alfabeto,
              estados=estados, 
              transicoes=transicoes, 
