@@ -42,7 +42,7 @@ Existem outros símbolos e sub-componentes que, para fins de viabilidade e simpl
 
 
 # AFN que reconhece a linguagem
-![image](afn.png)
+![image](./jflap/afn.png)
 
 # Regras de formação das palavras
 
@@ -60,4 +60,55 @@ Existem outros símbolos e sub-componentes que, para fins de viabilidade e simpl
 - S://u@h:p#f?q
 - S://u@h:p
 
+# Tutorial
 
+Para utilizar a AFN que representa a URI genérica e a lista de palavras proposta:
+
+`python3 main.py -p entrada -c listadepalavras.csv -l -r`
+
+---
+
+A estrutura da chamada do programa e seus argumentos são os seguintes:
+
+`python3 main.py -p <CAMINHO-PROG-ENTRADA> -c <CAMINHO-CSV-PALAVRAS> -l -r`
+
+onde:
+
+    -p: caminho do programa de entrada
+
+    -c: caminho do .csv com a lista de palavras
+
+    -l: opção para exibir no terminal a lista de palavras completa
+    
+    -r: opção para exibir a lista de palavras rejeitadas pelo AF
+
+## Arquivos
+
+### Programa
+
+O formato do arquivo de entrada que contém a definição do AFN deve seguir o padrão:
+
+```
+<M>=({<s1>,...,<sn>}, {<q0>,...,<qn>}, <ini>, { <f0>,...,<fn>}) 
+Prog 
+(<q0>,<s1>)={<q1>,<q2>} 
+... 
+(<qn>,<sn>)={<q0>}
+```
+onde: 
+
+    < M >: nome dado ao autômato;
+
+    < si >: para 1 ≤ i ≤ n, com n ∈ N e n ≥ 1, representa um símbolo do alfabeto da linguagem reconhecida pelo autômato; 
+    
+    < qi >: para 0 ≤ i ≤ n, com n ∈ N e n ≥ 0, representa um estado do autômato; 
+    
+    < ini >: indica o estado inicial do autômato, sendo que ini é um estado do autômato; 
+    
+    < f i >: para 0 ≤ i ≤ n, com n ∈ N e n ≥ 0, representa um estado final do autômato, sendo que f i é um estado do autômato; 
+    
+    (< qi >, < si >) = {< qj >, < qk >}: descreve a função programa aplicada a um estado qi e um símbolo de entrada si que leva a computação ao conjunto de estados {< qj >, < qk >}.
+
+### Lista de palavras
+
+O arquivo com lista de palavras deve conter as palavras separadas por vírgula, ou seja, em formato .csv.
