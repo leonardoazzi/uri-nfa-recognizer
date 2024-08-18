@@ -61,7 +61,20 @@ def arg_input() -> tuple:
 
     return prog_path, csv_path, arg_rejeita, arg_lista
 
-def ler_set_de_string(string_set):
+def ler_set_de_string(string_set: str) -> set:
+    """
+    Converte uma string contendo um conjunto de elementos separados por vírgula em um set.
+
+    Args:
+        string_set (str): A string contendo o conjunto de elementos separados por vírgula.
+
+    Retorna:
+        set: O conjunto contendo os elementos da string.
+
+    Exemplo:
+        >>> ler_set_de_string('{1, 2, 3}')
+        {1, 2, 3}
+    """
     # Remove as chaves e espaços desnecessários
     string_set = string_set.strip('{} ')
     # Divide a string pelos elementos separados por vírgula
@@ -70,7 +83,20 @@ def ler_set_de_string(string_set):
     set_final = {elem.strip().strip("'\"") for elem in elementos}
     return set_final
 
-def ler_tupla_de_string(string):
+def ler_tupla_de_string(string: str) -> tuple:
+    """
+    Converte uma string representando uma tupla em uma tupla de elementos.
+
+    Args:
+        string (str): A string representando a tupla.
+
+    Retorna:
+        tuple: Uma tupla de elementos.
+
+    Exemplo:
+        >>> ler_tupla_de_string("(1, 2, 3)")
+        (1, 2, 3)
+    """
     # Remove os parênteses externos
     string = string.strip("()")
     # Divide a string pelo separador de vírgula
@@ -79,7 +105,20 @@ def ler_tupla_de_string(string):
     tupla = tuple(elem.strip().strip("'\"") for elem in elementos)
     return tupla
 
-def ler_lista_de_string(string):
+def ler_lista_de_string(string: str) -> list:
+    """
+    Função que recebe uma string contendo uma lista de strings e retorna uma lista de strings.
+
+    Parâmetros:
+    string (str): A string contendo a lista de strings.
+
+    Retorna:
+    list: Uma lista de strings.
+
+    Exemplo:
+    >>> ler_lista_de_string("['string1', 'string2', 'string3']")
+    ['string1', 'string2', 'string3']
+    """
     # Remove os colchetes externos
     string = string.strip("{}")
     # Divide a string pelo separador de vírgula
@@ -88,10 +127,32 @@ def ler_lista_de_string(string):
     lista = [elem.strip().strip("'\"") for elem in elementos]
     return lista
 
-def remover_espacos(string):
+def remover_espacos(string:str) -> str:
+    """
+    Remove os espaços em branco de uma string.
+
+    Args:
+        string (str): A string da qual os espaços em branco serão removidos.
+
+    Returns:
+        str: A string resultante após a remoção dos espaços em branco.
+    """
     return string.replace(" ", "")
 
-def ler_ate_C(string, C):
+def ler_ate_C(string: str, C: str) -> tuple:
+    """
+    Retorna uma tupla contendo duas strings: a parte da string original antes da primeira ocorrência do caractere C
+    e a parte da string original depois da primeira ocorrência do caractere C. Se o caractere C não for encontrado,
+    a parte "depois" será uma string vazia.
+
+    Parâmetros:
+    - string: A string original a ser dividida.
+    - C: O caractere a ser procurado na string.
+
+    Retorno:
+    - Uma tupla contendo duas strings: a parte da string original antes da primeira ocorrência do caractere C
+    e a parte da string original depois da primeira ocorrência do caractere C.
+    """
     if C in string:
         antes, depois = string.split(C, 1)  # Divide na primeira ocorrência de C
     else:
@@ -99,7 +160,21 @@ def ler_ate_C(string, C):
         depois = ""  # Se não encontrar o caractere, a parte "depois" fica vazia
     return antes, depois
 
-def leitura(prog_path):
+def leitura(prog_path: str) -> tuple:
+    """
+    Lê um arquivo de programa e retorna as informações necessárias.
+
+    Args:
+        prog_path (str): O caminho do arquivo de programa.
+
+    Retorna:
+        tuple: Uma tupla contendo as seguintes informações:
+            - alfabeto (str): O alfabeto do autômato.
+            - estados (set): O conjunto de estados do autômato.
+            - transicoes (dict): O dicionário de transições do autômato.
+            - estado_inicial (str): O estado inicial do autômato.
+            - estados_finais (set): O conjunto de estados finais do autômato.
+    """
     with open(prog_path,'r') as arquivo:
         entrada = remover_espacos(arquivo.readline().strip())
         _,entrada = ler_ate_C(entrada,'=')
@@ -140,7 +215,20 @@ def leitura(prog_path):
 
         return alfabeto, estados, transicoes, estado_inicial, estados_finais
 
-def leituraCSV(csv_path):
+def leituraCSV(csv_path: str) -> tuple:
+    """
+    Lê um arquivo CSV e retorna seu conteúdo como uma tupla.
+
+    Parâmetros:
+    csv_path (str): O caminho do arquivo CSV a ser lido.
+
+    Retorna:
+    tuple: Uma tupla contendo as strings do arquivo CSV, divididas por vírgula.
+
+    Exemplo:
+    >>> leituraCSV('/caminho/do/arquivo.csv')
+    ('valor1', 'valor2', 'valor3')
+    """
     with open(csv_path, 'r') as arquivo:
         conteudo = arquivo.read().strip()  # Lê o arquivo inteiro e remove espaços em branco extras
         return tuple(conteudo.split(','))  # Divide as strings por vírgula e transforma em tupla
