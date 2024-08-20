@@ -62,6 +62,8 @@ Existem outros símbolos e sub-componentes que, para fins de viabilidade e simpl
 
 # Tutorial
 
+Desenvolvido em Python 3.10.12.
+
 Para utilizar a AFN que representa a URI genérica e a lista de palavras proposta:
 
 `python3 main.py -p entrada -c listadepalavras.csv -l -r`

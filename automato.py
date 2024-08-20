@@ -22,25 +22,22 @@ class AF:
         Verifica se o autômato finito reconhece a palavra de entrada.
 
         Parâmetros:
-        - palavra_entrada (bool): palavra a ser verificada.
+        - palavra_entrada (str): palavra a ser verificada.
 
         Retorna:
         - True se a palavra de entrada está no conjunto ACEITA do autômato, False caso contrário.
         """
-        self.estados = frozenset(self.estados)
         estado_inicial = frozenset([self.estado_inicial])
         
         # Inicializa os estados atuais com o estado inicial
-        estados_atuais = {estado_inicial}
+        estado_atual = {estado_inicial}
         
+        # Percorre os estados para cada símbolo da palavra de entrada
         for simbolo in palavra_entrada:
-            prox_estados = set()
-            for estado in estados_atuais:
-                # Busca os próximos estados se houver
-                if (frozenset(estado), simbolo) in self.transicoes:
-                    prox_estados |= frozenset(self.transicoes[(estado, simbolo)]) # União dos conjuntos
-                    prox_estados = frozenset(prox_estados)
-            estados_atuais = {prox_estados}
+            for estado in estado_atual:
+                atingido = self.transicoes.get((estado, simbolo))
+            
+            estado_atual = {atingido}
         
         # Verifica se algum dos estados atuais é um estado de aceitação
-        return prox_estados in self.estados_aceita
+        return atingido in self.estados_aceita
